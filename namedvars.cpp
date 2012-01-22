@@ -7,10 +7,15 @@
 #include <string>
 
 /// RegisterEntry
+///
 /// A class to model a varible pointer to any type.
+///
 /// It is up to the user to determine to which type it points to.
+///
 /// It will raise an error when trying to access it if in an invalid
 /// state.
+/// You may avoid this exception by checking if the entry is valid()
+/// before using as<T>().
 ///
 /// Its only publicly-used methods should be valid() and as<T>().
 class RegisterEntry {
@@ -25,6 +30,13 @@ class RegisterEntry {
             T & as();
 };
 
+/// Register
+///
+/// The class storing all the Name-Entry pairs.
+/// It is implemented as a stack, to allow redefining new variables with
+/// the same name. (e.g. recursive functions)
+///
+/// Its only publicly-used method should be get().
 class Register {
     private:
         typedef std::stack<RegisterEntry> Stack_;
@@ -38,8 +50,26 @@ class Register {
         RegisterEntry get(std::string const & name);
 };
 
+/// getGlobalRegister()
+///
+/// Returns an unique static register.
+/// It is the one selected by default when creating a Registered<T>, if
+/// none is explicitly specified.
 Register & getGlobalRegister();
 
+/// Registered<T>
+///
+/// Models a registered variables.
+///
+/// Usage :
+///  * Use special constructor : Registered<MyType>("VarName", MyValue)
+///    It adds the variable name.
+///    The MyValue will be selected as the value of the Registered<MyType>.
+///  * Use as a normal variable of type MyType
+///  * Access from the specified register (or the global register) at any time !
+///  * Use name() if ever you didn't remember the variable name
+///    I didn't find yet any interesting usage of this, but maybe could it get
+///    useful ... So I wrote it !
 template <typename T>
 class Registered {
     private:
@@ -56,6 +86,13 @@ class Registered {
         std::string const & name() const;
 };
 
+/// InvalidRegisterEntryException
+///
+/// Exception raised when somebody tries to access a register entry (using
+/// as<T>) that is not a valid one.
+///
+/// It is likely to happen if the variable name asked to the register
+/// doesn't exist.
 class InvalidRegisterEntryException : public std::runtime_error {
     public:
         InvalidRegisterEntryException();
