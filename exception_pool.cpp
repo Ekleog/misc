@@ -14,15 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <boost/preprocessor/arithmetic/dec.hpp>
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/comparison/less.hpp>
-#include <boost/preprocessor/control/expr_iif.hpp>
-#include <boost/preprocessor/facilities/expand.hpp>
 #include <boost/preprocessor/repetition/repeat.hpp>
 #include <boost/preprocessor/seq/elem.hpp>
 #include <boost/preprocessor/tuple/elem.hpp>
-#include <boost/preprocessor/tuple/enum.hpp>
 #include <boost/preprocessor/tuple/size.hpp>
 #include <boost/preprocessor/tuple/to_seq.hpp>
 
