@@ -40,7 +40,7 @@ struct Transaction {
 
 void transaction(std::vector<std::pair<action_cb, rollback_cb>> const & actions) {
    // Build transaction array and linked-list
-   Transaction *transactions = new Transaction[actions.size()];
+   std::vector<Transaction> transactions(actions.size());
    for (std::size_t i = 0 ; i < actions.size() ; ++i) {
       transactions[i].action   = actions[i].first;
       transactions[i].rollback = actions[i].second;
@@ -50,8 +50,6 @@ void transaction(std::vector<std::pair<action_cb, rollback_cb>> const & actions)
    transactions[actions.size() - 1].next = nullptr;
    // Execute
    transactions[0].execute();
-   // Cleanup
-   delete[] transactions;
 }
 
 #include <iostream>
