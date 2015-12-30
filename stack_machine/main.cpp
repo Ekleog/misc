@@ -1,13 +1,16 @@
+#include <iostream>
+#include <sstream>
+
+#include "parse.hpp"
 #include "Program.hpp"
 
-#include "operations/JumpOp.hpp"
-
 int main() {
-    std::vector<std::unique_ptr<Operation>> opcodes;
+    Program p(parse(std::istringstream(
+        ":label\n"
+        "jump :label\n"
+    )));
 
-    opcodes.emplace_back(new JumpOp(0));
+    std::cout << p.to_string();
 
-    Program p(std::move(opcodes));
-
-    p.run();
+    p.run(true);
 }
