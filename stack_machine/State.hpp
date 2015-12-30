@@ -8,6 +8,8 @@ class State {
     std::size_t ip_;
 
 public:
+    State() : stack_(), ip_() { }
+
     void push(int i) {
         stack_.push_back(i);
     }
