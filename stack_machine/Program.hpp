@@ -15,12 +15,9 @@ public:
         : opcodes_(std::move(opcodes))
     { }
 
-    void run() const {
-        State s;
+    void run(bool debug) const;
 
-        while (s.ip() >= 0 && s.ip() < opcodes_.size())
-            opcodes_[s.ip()]->run(s);
-    }
+    std::string to_string() const;
 };
 
 #endif
