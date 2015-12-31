@@ -6,14 +6,12 @@
 
 int main() {
     Program p(parse(std::istringstream(
-        "push 3\n"
-        "push 42\n"
         "read\n"
-        "jump :label\n"
-        "  pop\n"
-        ":label\n"
-        "print\n"
-        "print\n"
+        ":loop\n"
+        "   dup add\n"
+        "   push 1 add\n"
+        "   dup print\n"
+        "jump :loop\n"
     )));
 
     std::cout << p.to_string();
