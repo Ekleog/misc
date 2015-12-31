@@ -15,7 +15,7 @@ public:
         : opcodes_(std::move(opcodes))
     { }
 
-    void run(bool debug) const;
+    void run(bool debug = false) const;
 
     std::string to_string() const;
 };
