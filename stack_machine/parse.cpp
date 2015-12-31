@@ -7,6 +7,7 @@
 #include "operations/PushOp.hpp"
 #include "operations/PopOp.hpp"
 #include "operations/PrintOp.hpp"
+#include "operations/ReadOp.hpp"
 
 // This only serves as a hack to postpone label resolution.
 //
@@ -64,6 +65,8 @@ std::vector<std::unique_ptr<Operation>> parse(std::istream &&is) {
             opcodes.emplace_back(new PopOp());
         } else if (s == "print") {
             opcodes.emplace_back(new PrintOp());
+        } else if (s == "read") {
+            opcodes.emplace_back(new ReadOp());
         } else {
             throw "Too lazy to but a real exception class for this toy sample, "
                   "but you used an invalid opcode";
