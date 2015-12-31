@@ -6,7 +6,7 @@
 void Program::run(bool debug) const {
     State s;
 
-    while (s.ip() >= 0 && s.ip() < opcodes_.size()) {
+    while (s.ip() < opcodes_.size()) {
         if (debug) {
             std::cerr << "eip = " << s.ip() << ":\t" << opcodes_[s.ip()]->name() << "\n";
         }
