@@ -38,24 +38,25 @@ std::vector<std::unique_ptr<Operation>> parse(std::istream &&is) {
 
     std::unordered_map<std::string, std::size_t> labels;
 
-    std::string s;
     while (!is.eof()) {
-        is >> s;
+        std::string s; is >> s;
+        if (is.eof())
+            break;
         if (s.size() == 0)
             throw "Not going to worry for this toy";
 
         if (s[0] == ':') {
             labels.emplace(s, opcodes.size());
         } else if (s == "jump") {
-            is >> s;
-            if (s.size() == 0)
-                throw "Not going to worry for this toy";
-
-            if (s[0] == ':')
-                opcodes.emplace_back(new DelayedJumpOp(s));
+            std::string l; is >> l;
+            if (l.size() > 0 && l[0] == ':')
+                opcodes.emplace_back(new DelayedJumpOp(l));
             else
                 throw "Too lazy to put a real exception class for this toy "
                       "sample, but there is an error in the input";
+        } else {
+            throw "Too lazy to but a real exception class for this toy sample, "
+                  "but you used an invalid opcode";
         }
     }
 
