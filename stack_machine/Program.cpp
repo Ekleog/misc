@@ -8,7 +8,10 @@ void Program::run(bool debug) const {
 
     while (s.ip() < opcodes_.size()) {
         if (debug) {
-            std::cerr << "eip = " << s.ip() << ":\t" << opcodes_[s.ip()]->name() << "\n";
+            std::cerr << "eip = " << s.ip() << ":\t" << opcodes_[s.ip()]->name() << "\tstack = ";
+            for (auto x : s.inspect())
+                std::cerr << x << ", ";
+            std::cerr << "\n";
         }
         ++s.ip();
         opcodes_[s.ip() - 1]->run(s);

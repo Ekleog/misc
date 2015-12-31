@@ -22,6 +22,10 @@ public:
         return ret;
     }
 
+    std::vector<int> const &inspect() const {
+        return stack_;
+    }
+
     std::size_t &ip() {
         return ip_;
     }
