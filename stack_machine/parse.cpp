@@ -4,6 +4,9 @@
 #include <unordered_map>
 
 #include "operations/JumpOp.hpp"
+#include "operations/PushOp.hpp"
+#include "operations/PopOp.hpp"
+#include "operations/PrintOp.hpp"
 
 // This only serves as a hack to postpone label resolution.
 //
@@ -54,6 +57,13 @@ std::vector<std::unique_ptr<Operation>> parse(std::istream &&is) {
             else
                 throw "Too lazy to put a real exception class for this toy "
                       "sample, but there is an error in the input";
+        } else if (s == "push") {
+            int i; is >> i;
+            opcodes.emplace_back(new PushOp(i));
+        } else if (s == "pop") {
+            opcodes.emplace_back(new PopOp());
+        } else if (s == "print") {
+            opcodes.emplace_back(new PrintOp());
         } else {
             throw "Too lazy to but a real exception class for this toy sample, "
                   "but you used an invalid opcode";
