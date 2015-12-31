@@ -10,7 +10,8 @@ void Program::run(bool debug) const {
         if (debug) {
             std::cerr << "eip = " << s.ip() << ":\t" << opcodes_[s.ip()]->name() << "\n";
         }
-        opcodes_[s.ip()]->run(s);
+        ++s.ip();
+        opcodes_[s.ip() - 1]->run(s);
     }
 }
 
