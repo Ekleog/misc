@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 #include "operations/JumpOp.hpp"
+#include "operations/JnzOp.hpp"
 #include "operations/PushOp.hpp"
 #include "operations/PopOp.hpp"
 #include "operations/PrintOp.hpp"
@@ -18,6 +19,8 @@
 // This only serves as a hack to postpone label resolution.
 //
 // No operation of this class shall be left in the returned vector
+//
+// A cleaner solution would be to use an intermediate representation
 class DelayedOp : public Operation {
 public:
     virtual ~DelayedOp();
@@ -43,6 +46,17 @@ public:
     }
 };
 
+class DelayedJnzOp : public DelayedOp {
+    std::string label_;
+
+public:
+    DelayedJnzOp(std::string label) : label_(label) { }
+
+    virtual std::unique_ptr<Operation> resolve(std::unordered_map<std::string, std::size_t> const &labels) const {
+        return std::make_unique<JnzOp>(labels.at(label_));
+    }
+};
+
 std::vector<std::unique_ptr<Operation>> parse(std::istream &&is) {
     std::vector<std::unique_ptr<Operation>> opcodes;
 
@@ -61,6 +75,13 @@ std::vector<std::unique_ptr<Operation>> parse(std::istream &&is) {
             std::string l; is >> l;
             if (l.size() > 0 && l[0] == ':')
                 opcodes.emplace_back(new DelayedJumpOp(l));
+            else
+                throw "Too lazy to put a real exception class for this toy "
+                      "sample, but there is an error in the input";
+        } else if (s == "jnz") {
+            std::string l; is >> l;
+            if (l.size() > 0 && l[0] == ':')
+                opcodes.emplace_back(new DelayedJnzOp(l));
             else
                 throw "Too lazy to put a real exception class for this toy "
                       "sample, but there is an error in the input";
