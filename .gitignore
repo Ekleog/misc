@@ -1,2 +1,3 @@
 .*.s[a-w][a-z]
 a.out
+__pycache__
